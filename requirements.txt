@@ -1,1 +1,17 @@
 playwright==1.48.0
+
+# Audio processing dependencies
+sounddevice==0.4.6
+numpy==1.26.4
+scipy==1.11.4
+
+# Groq API for Whisper transcription
+groq==0.11.0
+
+# Silero VAD for voice activity detection
+torch==2.1.2
+torchaudio==2.1.2
+
+# Additional utilities
+python-dotenv==1.0.0
+pyaudio==0.2.14
