@@ -1,1 +1,21 @@
+# Meeting Joiner Bot with Real-time Transcription
+# Required dependencies for Windows
+
+# Core browser automation
 playwright==1.48.0
+
+# Audio capture (Windows WASAPI loopback support)
+PyAudioWPatch==0.2.12.7
+
+# Audio processing
+numpy==1.24.3
+
+# Deep learning for VAD
+torch==2.1.2
+torchaudio==2.1.2
+
+# Groq API for Whisper transcription
+groq==0.11.0
+
+# Additional utilities
+typing-extensions==4.8.0
