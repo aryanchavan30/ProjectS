@@ -12,6 +12,10 @@ groq==0.11.0
 torch==2.1.2
 torchaudio==2.1.2
 
+# PyTorch dependencies (required for torch.hub)
+packaging>=21.0
+filelock>=3.12.0
+
 # Additional utilities
 python-dotenv==1.0.0
 pyaudio==0.2.14
