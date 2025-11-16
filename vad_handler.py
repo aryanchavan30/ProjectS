@@ -187,6 +187,8 @@ class StreamingVAD:
         self.speech_buffer = []
         self.silence_counter = 0
         self.max_silence_chunks = 10  # Number of silent chunks before ending speech
+        self.chunk_counter = 0  # For debug output
+        self.debug_interval = 100  # Print debug every N chunks
 
     def process_chunk(self, audio_chunk: np.ndarray) -> Optional[np.ndarray]:
         """
@@ -200,8 +202,15 @@ class StreamingVAD:
         """
         is_speech, confidence = self.vad_handler.is_speech(audio_chunk)
 
+        # Debug output every N chunks
+        self.chunk_counter += 1
+        if self.chunk_counter % self.debug_interval == 0:
+            print(f"[VAD DEBUG] Chunk {self.chunk_counter}: confidence={confidence:.3f}, threshold={self.vad_handler.threshold:.3f}, is_speech={is_speech}, speaking={self.is_speaking}")
+
         if is_speech:
             # Speech detected
+            if not self.is_speaking:
+                print(f"[VAD] Speech started! (confidence: {confidence:.3f})")
             self.is_speaking = True
             self.silence_counter = 0
             self.speech_buffer.append(audio_chunk)
@@ -217,6 +226,7 @@ class StreamingVAD:
                 # Check if silence duration exceeded threshold
                 if self.silence_counter >= self.max_silence_chunks:
                     # Speech segment ended
+                    print(f"[VAD] Speech ended! Buffer size: {len(self.speech_buffer)} chunks")
                     complete_segment = np.concatenate(self.speech_buffer)
 
                     # Reset state

@@ -138,13 +138,18 @@ class TranscriptionService:
             # Check minimum duration
             duration = len(speech_segment) / self.sample_rate
 
+            print(f"[DEBUG] Speech segment detected: {duration:.2f}s (min required: {self.min_speech_duration}s)")
+
             if duration >= self.min_speech_duration:
+                print(f"[DEBUG] Sending {duration:.2f}s audio to Groq Whisper...")
                 # Transcribe in separate thread to avoid blocking
                 threading.Thread(
                     target=self._transcribe_segment,
                     args=(speech_segment,),
                     daemon=True
                 ).start()
+            else:
+                print(f"[DEBUG] Speech too short ({duration:.2f}s), skipping transcription")
 
     def _transcribe_segment(self, audio_segment: np.ndarray):
         """
