@@ -43,7 +43,16 @@ class GroqTranscriber:
             )
 
         # Initialize Groq client
-        self.client = Groq(api_key=self.api_key)
+        try:
+            self.client = Groq(api_key=self.api_key)
+        except TypeError as e:
+            # Handle version compatibility issues
+            if "proxies" in str(e):
+                # Try without proxies argument (for older versions)
+                import groq
+                self.client = groq.Client(api_key=self.api_key)
+            else:
+                raise
 
         # Configuration
         self.model = model
