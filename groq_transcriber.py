@@ -43,16 +43,20 @@ class GroqTranscriber:
             )
 
         # Initialize Groq client
+        # Use simple initialization as per official Groq docs
         try:
-            self.client = Groq(api_key=self.api_key)
-        except TypeError as e:
-            # Handle version compatibility issues
-            if "proxies" in str(e):
-                # Try without proxies argument (for older versions)
-                import groq
-                self.client = groq.Client(api_key=self.api_key)
-            else:
-                raise
+            # Set API key as environment variable for Groq client
+            os.environ['GROQ_API_KEY'] = self.api_key
+            self.client = Groq()
+        except Exception as e:
+            print(f"Error initializing Groq client: {e}")
+            print("Trying alternative initialization method...")
+            try:
+                # Fallback: explicit API key parameter
+                self.client = Groq(api_key=self.api_key)
+            except Exception as e2:
+                raise ValueError(f"Failed to initialize Groq client. Error: {e2}\n"
+                               f"Please upgrade groq package: pip install groq --upgrade")
 
         # Configuration
         self.model = model

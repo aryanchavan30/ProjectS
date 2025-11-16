@@ -6,7 +6,7 @@ numpy==1.26.4
 scipy==1.11.4
 
 # Groq API for Whisper transcription
-groq>=0.4.0,<1.0.0
+groq==0.9.0
 
 # Silero VAD for voice activity detection
 torch==2.1.2
