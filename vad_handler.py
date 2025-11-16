@@ -76,6 +76,16 @@ class VADHandler:
             if audio_chunk.max() > 1.0 or audio_chunk.min() < -1.0:
                 audio_chunk = audio_chunk / np.abs(audio_chunk).max()
 
+            # Silero VAD requires minimum chunk size: sr / samples <= 31.25
+            # For 16000 Hz: minimum 512 samples (~32ms)
+            min_samples = int(self.sample_rate / 31.25)
+
+            if len(audio_chunk) < min_samples:
+                # Pad with zeros if chunk is too short
+                padded = np.zeros(min_samples, dtype=np.float32)
+                padded[:len(audio_chunk)] = audio_chunk
+                audio_chunk = padded
+
             # Convert to torch tensor
             audio_tensor = torch.from_numpy(audio_chunk)
 

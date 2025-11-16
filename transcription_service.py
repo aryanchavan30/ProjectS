@@ -81,7 +81,7 @@ class TranscriptionService:
                 device_name=audio_device,
                 sample_rate=self.sample_rate,
                 channels=1,
-                chunk_duration_ms=30
+                chunk_duration_ms=100  # 100ms chunks (minimum 32ms for Silero VAD)
             )
             print("✓ Audio capture initialized")
 

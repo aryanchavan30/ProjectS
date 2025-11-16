@@ -20,7 +20,7 @@ class AudioCaptureDevice:
         device_name: Optional[str] = None,
         sample_rate: int = 16000,
         channels: int = 1,
-        chunk_duration_ms: int = 30,
+        chunk_duration_ms: int = 100,
         callback: Optional[Callable] = None
     ):
         """
@@ -30,7 +30,7 @@ class AudioCaptureDevice:
             device_name: Name of the audio input device (None for default)
             sample_rate: Sample rate in Hz (default: 16000 for Whisper)
             channels: Number of audio channels (1 for mono, 2 for stereo)
-            chunk_duration_ms: Duration of each audio chunk in milliseconds
+            chunk_duration_ms: Duration of each audio chunk in milliseconds (default: 100ms, minimum 32ms for Silero VAD)
             callback: Callback function to process audio chunks
         """
         self.device_name = device_name
@@ -226,7 +226,7 @@ class ContinuousAudioCapture:
         self,
         device_name: Optional[str] = None,
         sample_rate: int = 16000,
-        chunk_duration_ms: int = 30,
+        chunk_duration_ms: int = 100,
         buffer_duration_s: int = 10
     ):
         """
@@ -235,7 +235,7 @@ class ContinuousAudioCapture:
         Args:
             device_name: Audio device name
             sample_rate: Sample rate in Hz
-            chunk_duration_ms: Chunk duration in milliseconds
+            chunk_duration_ms: Chunk duration in milliseconds (default: 100ms, minimum 32ms for Silero VAD)
             buffer_duration_s: Buffer duration in seconds
         """
         self.sample_rate = sample_rate
