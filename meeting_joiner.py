@@ -281,8 +281,8 @@ class MeetingJoiner:
                                 audio_device=self.audio_device,
                                 groq_api_key=self.groq_api_key,
                                 sample_rate=16000,
-                                vad_threshold=0.5,
-                                min_speech_duration=1.0
+                                vad_threshold=0.3,  # Lowered from 0.5 for better sensitivity
+                                min_speech_duration=0.5  # Reduced from 1.0 for faster detection
                             )
 
                             # Start transcription with speaker tracking
